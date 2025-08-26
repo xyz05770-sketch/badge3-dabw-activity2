@@ -29,7 +29,7 @@ if show_table:
 
 crud_operations = st.multiselect(
     "Select Operation",
-    options=["Add Employee Details", "Update Employee Details", "Delete Employee Details"],
+    options=["Add Employee Details", "Update Employee Details", "Remove Employee Details"],
     max_selections=1
 )
 
@@ -55,7 +55,7 @@ if crud_operations:
                     "values (" + str(int(current_id)) + ", '" + first_name + "', '" + last_name + "', '" + str(dob) + "', '" + gender + "', '" + department + "', " + str(float(salary)) + ")"
                 )
                 session.sql(my_insert_stmt).collect()
-                st.success("Employee added successfully!")
+                st.success("Employee details added successfully!")
     
     elif crud_operations[0] == "Update Employee Details":
         current_id = st.text_input("Enter Employee ID to Update")
@@ -84,5 +84,12 @@ if crud_operations:
                 """
 
                 session.sql(update_stmt).collect()
-                st.success("Employee updated successfully!")
+                st.success("Employee details updated successfully!")
 
+    elif crud_operations[0] == "Delete Employee Details":
+        current_id = st.text_input("Enter Employee ID to Delete")
+
+        if st.button("Remove Employee Details"):
+            delete_stmt = f"DELETE FROM employee_crud.public.employee WHERE ID = {int(current_id)}"
+            session.sql(delete_stmt).collect()
+            st.success("Employee details removed successfully!")
