@@ -2,7 +2,7 @@ import streamlit as st
 from snowflake.snowpark.functions import col
 
 # Write directly to the app
-st.title(":briefcase: Employee Management Portal :briefcase:")
+st.title(":briefcase: Employee Management Portal")
 st.write("Manage your employee records efficiently.")
 
 cnx = st.connection("snowflake")
