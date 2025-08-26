@@ -58,6 +58,7 @@ if crud_operations:
                 st.success("Employee added successfully!")
     
     elif crud_operations[0] == "Update Employee Details":
+        current_id = st.number_input("Enter Employee ID to Update")
         st.write("Select attribute(s) to update:")
         attributes = ["FirstName", "LastName", "DOB", "Gender", "Department", "Salary"]
         selected_attributes = st.multiselect("Attributes", options=attributes)
@@ -65,7 +66,6 @@ if crud_operations:
         if selected_attributes:
             st.write("Update values for selected attributes:")
             updated_values = {}
-            current_id = my_dataframe_pd['ID'].max() + 1
             for attr in selected_attributes:
                 if attr == "DOB":
                     updated_values[attr] = str(st.date_input(attr, value=datetime.date(2000, 1, 1)))
