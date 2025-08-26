@@ -59,7 +59,7 @@ if crud_operations:
     
     elif crud_operations[0] == "Update Employee Details":
         st.write("Select attribute(s) to update:")
-        attributes = ["First Name", "Last Name", "DOB", "Gender", "Department", "Salary"]
+        attributes = ["FirstName", "LastName", "DOB", "Gender", "Department", "Salary"]
         selected_attributes = st.multiselect("Attributes", options=attributes)
 
         if selected_attributes:
