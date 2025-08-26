@@ -86,7 +86,7 @@ if crud_operations:
                 session.sql(update_stmt).collect()
                 st.success("Employee details updated successfully!")
 
-    elif crud_operations[0] == "Delete Employee Details":
+    elif crud_operations[0] == "Remove Employee Details":
         current_id = st.text_input("Enter Employee ID to Delete")
 
         if st.button("Remove Employee Details"):
