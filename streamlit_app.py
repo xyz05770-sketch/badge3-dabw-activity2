@@ -47,15 +47,19 @@ if crud_operations:
             department = st.selectbox("Department", options=["HR", "Engineering", "Sales", "Marketing", "Finance", "IT"])
             salary = st.number_input("Salary", min_value=0.0, format="%.2f")
 
-            my_insert_stmt = """ insert into employee_crud.public.employee(FirstName, LastName, DOB, Gender, Department, Salary)
-            values ('""" + int(current_id) + """', '""" + first_name + """', '""" + str(dob) + """', '""" + gender + """', '""" + department + """', """ + int(salary) + """)"""
+            my_insert_stmt = (
+                "insert into employee_crud.public.employee (ID, FirstName, LastName, DOB, Gender, Department, Salary) "
+                "values (" + str(int(current_id)) + ", '" + first_name + "', '" + last_name + "', '" + str(dob) + "', '" + gender + "', '" + department + "', " + str(float(salary)) + ")"
+            )
             print(my_insert_stmt)
             st.stop()
 
             submitted = st.form_submit_button("Add Employee")
             if submitted:
-                my_insert_stmt = """ insert into employee_crud.public.employee(FirstName, LastName, DOB, Gender, Department, Salary)
-                values ('""" + int(current_id) + """', '""" + first_name + """', '""" + str(dob) + """', '""" + gender + """', '""" + department + """', """ + int(salary) + """)"""
+                my_insert_stmt = (
+                    "insert into employee_crud.public.employee (ID, FirstName, LastName, DOB, Gender, Department, Salary) "
+                    "values (" + str(int(current_id)) + ", '" + first_name + "', '" + last_name + "', '" + str(dob) + "', '" + gender + "', '" + department + "', " + str(float(salary)) + ")"
+                )
                 session.sql(my_insert_stmt).collect()
                 st.success("Employee added successfully!")
 
