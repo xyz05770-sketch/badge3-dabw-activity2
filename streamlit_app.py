@@ -51,7 +51,7 @@ if crud_operations:
                 "insert into employee_crud.public.employee (ID, FirstName, LastName, DOB, Gender, Department, Salary) "
                 "values (" + str(int(current_id)) + ", '" + first_name + "', '" + last_name + "', '" + str(dob) + "', '" + gender + "', '" + department + "', " + str(float(salary)) + ")"
             )
-            print(my_insert_stmt)
+            st.write(my_insert_stmt)
 
             submitted = st.form_submit_button("Add Employee")
             if submitted:
