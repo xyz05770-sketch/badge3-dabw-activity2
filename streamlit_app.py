@@ -12,6 +12,9 @@ my_dataframe = session.table("employee_crud.public.employee").select(
     col('Gender'), col('Department'), col('Salary')
 )
 
+# For Max calc -> Snowpark dataframe to pandas
+my_dataframe_pd = my_dataframe.to_pandas()
+
 show_table = st.toggle(
     "Click to Hide Employee Table" if st.session_state.get("show_table", False) else "Click to View Employee Table",
     value=st.session_state.get("show_table", False),
@@ -29,11 +32,11 @@ crud_operations = st.multiselect(
 
 if crud_operations:
     st.write(f"You selected: {crud_operations[0]}")
-    
+
     if crud_operations[0] == "Add Employee Details":
         with st.form("add_employee_form"):
             st.subheader("Add New Employee")
-            current_id = my_dataframe['ID'].max() + 1
+            current_id = my_dataframe_pd['ID'].max() + 1
             first_name = st.text_input("First Name")
             last_name = st.text_input("Last Name")
             dob = st.date_input("Date of Birth")
