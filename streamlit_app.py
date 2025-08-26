@@ -77,7 +77,7 @@ if crud_operations:
             if st.button("Update Employee"):
                 update_stmt = f"""
                 UPDATE employee_crud.public.employee
-                SET {', '.join([f"{k} = '{v}'" for k, v in updated_values.items()])}
+                SET {', '.join([f"{k} = {v}" if k == "Salary" else f"{k} = '{v}'" for k, v in updated_values.items()])}
                 WHERE ID = {current_id}
                 """
                 st.write(update_stmt)
