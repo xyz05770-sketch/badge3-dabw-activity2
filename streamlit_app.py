@@ -1,5 +1,6 @@
 import streamlit as st
 from snowflake.snowpark.functions import col
+import datetime
 
 st.title(":briefcase: Employee Management Portal")
 st.write("Manage your employee records efficiently.")
@@ -7,10 +8,12 @@ st.write("Manage your employee records efficiently.")
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-my_dataframe = session.table("employee_crud.public.employee").select(
-    col('ID'), col('FirstName'), col('LastName'), col('DOB'),
-    col('Gender'), col('Department'), col('Salary')
-)
+my_dataframe = session.table("employee_crud.public.employee")\
+    .select(
+        col('ID'), col('FirstName'), col('LastName'), col('DOB'),
+        col('Gender'), col('Department'), col('Salary')
+    )\
+    .order_by(col("ID"))
 
 # For Max calc -> Snowpark dataframe to pandas
 my_dataframe_pd = my_dataframe.to_pandas()
@@ -39,9 +42,9 @@ if crud_operations:
             current_id = my_dataframe_pd['ID'].max() + 1
             first_name = st.text_input("First Name")
             last_name = st.text_input("Last Name")
-            dob = st.date_input("Date of Birth")
+            dob = st.date_input("Date of Birth", min_value=datetime.date(1900, 1, 1))
             gender = st.selectbox("Gender", options=["Male", "Female", "Other"])
-            department = st.text_input("Department")
+            department = st.selectbox("Department", options=["HR", "Engineering", "Sales", "Marketing", "Finance", "IT"])
             salary = st.number_input("Salary", min_value=0.0, format="%.2f")
 
             submitted = st.form_submit_button("Add Employee")
