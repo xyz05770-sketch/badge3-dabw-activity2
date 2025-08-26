@@ -39,7 +39,7 @@ if crud_operations:
     if crud_operations[0] == "Add Employee Details":
         with st.form("add_employee_form"):
             st.subheader("Add New Employee")
-            
+
             current_id = my_dataframe_pd['ID'].max() + 1
             first_name = st.text_input("First Name")
             last_name = st.text_input("Last Name")
@@ -56,4 +56,32 @@ if crud_operations:
                 )
                 session.sql(my_insert_stmt).collect()
                 st.success("Employee added successfully!")
+    
+    elif crud_operations[0] == "Update Employee Details":
+        st.write("Select attribute(s) to update:")
+        attributes = ["First Name", "Last Name", "DOB", "Gender", "Department", "Salary"]
+        selected_attributes = st.multiselect("Attributes", options=attributes)
+
+        if selected_attributes:
+            st.write("Update values for selected attributes:")
+            updated_values = {}
+            current_id = my_dataframe_pd['ID'].max() + 1
+            for attr in selected_attributes:
+                if attr == "DOB":
+                    updated_values[attr] = str(st.date_input(attr, value=datetime.date(2000, 1, 1)))
+                elif attr == "Salary":
+                    updated_values[attr] = float(st.number_input(attr, min_value=0.0, format="%.2f"))
+                else:
+                    updated_values[attr] = st.text_input(attr)
+
+            if st.button("Update Employee"):
+                update_stmt = f"""
+                UPDATE employee_crud.public.employee
+                SET {', '.join([f"{k} = '{v}'" for k, v in updated_values.items()])}
+                WHERE ID = {current_id}
+                """
+                print(update_stmt)
+                st.stop()
+                # session.sql(update_stmt).collect()
+                # st.success("Employee updated successfully!")
 
