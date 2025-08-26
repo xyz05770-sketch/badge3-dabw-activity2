@@ -80,7 +80,7 @@ if crud_operations:
                 SET {', '.join([f"{k} = '{v}'" for k, v in updated_values.items()])}
                 WHERE ID = {current_id}
                 """
-                print(update_stmt)
+                st.write(update_stmt)
                 st.stop()
                 # session.sql(update_stmt).collect()
                 # st.success("Employee updated successfully!")
