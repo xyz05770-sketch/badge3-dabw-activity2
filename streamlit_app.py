@@ -80,8 +80,7 @@ if crud_operations:
                 SET {', '.join([f"{k} = {v}" if k == "Salary" else f"{k} = '{v}'" for k, v in updated_values.items()])}
                 WHERE ID = {current_id}
                 """
-                st.write(update_stmt)
-                st.stop()
-                # session.sql(update_stmt).collect()
-                # st.success("Employee updated successfully!")
+
+                session.sql(update_stmt).collect()
+                st.success("Employee updated successfully!")
 
