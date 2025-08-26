@@ -58,7 +58,7 @@ if crud_operations:
                 st.success("Employee added successfully!")
     
     elif crud_operations[0] == "Update Employee Details":
-        current_id = st.number_input("Enter Employee ID to Update")
+        current_id = st.text_input("Enter Employee ID to Update")
         st.write("Select attribute(s) to update:")
         attributes = ["FirstName", "LastName", "DOB", "Gender", "Department", "Salary"]
         selected_attributes = st.multiselect("Attributes", options=attributes)
@@ -70,15 +70,17 @@ if crud_operations:
                 if attr == "DOB":
                     updated_values[attr] = str(st.date_input(attr, value=datetime.date(2000, 1, 1)))
                 elif attr == "Salary":
-                    updated_values[attr] = float(st.number_input(attr, min_value=0.0, format="%.2f"))
+                    updated_values[attr] = float(st.text_input("Salary"))
                 else:
                     updated_values[attr] = st.text_input(attr)
+
+            ID = int(current_id)
 
             if st.button("Update Employee"):
                 update_stmt = f"""
                 UPDATE employee_crud.public.employee
                 SET {', '.join([f"{k} = {v}" if k == "Salary" else f"{k} = '{v}'" for k, v in updated_values.items()])}
-                WHERE ID = {current_id}
+                WHERE ID = {ID}
                 """
 
                 session.sql(update_stmt).collect()
