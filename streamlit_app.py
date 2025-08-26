@@ -12,12 +12,47 @@ my_dataframe = session.table("employee_crud.public.employee").select(
     col('Gender'), col('Department'), col('Salary')
 )
 
-# Use st.toggle for true toggle UI/UX
 show_table = st.toggle(
-    "Click to Hide" if st.session_state.get("show_table", False) else "Click to View",
+    "Click to Hide Employee Table" if st.session_state.get("show_table", False) else "Click to View Employee Table",
     value=st.session_state.get("show_table", False),
     key="show_table"
 )
 
 if show_table:
     st.dataframe(data=my_dataframe, use_container_width=True)
+
+crud_operations = st.multiselect(
+    "Select Operation",
+    options=["Add Employee Details", "Update Employee Details", "Delete Employee Details"],
+    max_selections=1
+)
+
+if crud_operations:
+    st.write(f"You selected: {crud_operations[0]}")
+    
+    if crud_operations[0] == "Add Employee Details":
+        with st.form("add_employee_form"):
+            st.subheader("Add New Employee")
+            current_id = my_dataframe['ID'].max() + 1
+            first_name = st.text_input("First Name")
+            last_name = st.text_input("Last Name")
+            dob = st.date_input("Date of Birth")
+            gender = st.selectbox("Gender", options=["Male", "Female", "Other"])
+            department = st.text_input("Department")
+            salary = st.number_input("Salary", min_value=0.0, format="%.2f")
+
+            submitted = st.form_submit_button("Add Employee")
+            if submitted:
+                new_employee = {
+                    "ID": int(current_id),
+                    "FirstName": first_name,
+                    "LastName": last_name,
+                    "DOB": str(dob),
+                    "Gender": gender,
+                    "Department": department,
+                    "Salary": float(salary)
+                }
+               
+                df_new = session.create_dataframe([new_employee])
+                df_new.write.save_as_table("employee_crud.public.employee", mode="append")
+                st.success("Employee added successfully!")
