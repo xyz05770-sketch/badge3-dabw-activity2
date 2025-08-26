@@ -70,7 +70,7 @@ if crud_operations:
                 if attr == "DOB":
                     updated_values[attr] = str(st.date_input(attr, value=datetime.date(2000, 1, 1)))
                 elif attr == "Salary":
-                    updated_values[attr] = float(st.text_input("Salary"))
+                    updated_values[attr] = float(st.text_input("Salary", "0.0"))
                 else:
                     updated_values[attr] = st.text_input(attr)
 
