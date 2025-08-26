@@ -39,6 +39,7 @@ if crud_operations:
     if crud_operations[0] == "Add Employee Details":
         with st.form("add_employee_form"):
             st.subheader("Add New Employee")
+            
             current_id = my_dataframe_pd['ID'].max() + 1
             first_name = st.text_input("First Name")
             last_name = st.text_input("Last Name")
@@ -47,15 +48,8 @@ if crud_operations:
             department = st.selectbox("Department", options=["HR", "Engineering", "Sales", "Marketing", "Finance", "IT"])
             salary = st.number_input("Salary", min_value=0.0, format="%.2f")
 
-            my_insert_stmt = (
-                "insert into employee_crud.public.employee (ID, FirstName, LastName, DOB, Gender, Department, Salary) "
-                "values (" + str(int(current_id)) + ", '" + first_name + "', '" + last_name + "', '" + str(dob) + "', '" + gender + "', '" + department + "', " + str(float(salary)) + ")"
-            )
-            st.write(my_insert_stmt)
-
             submitted = st.form_submit_button("Add Employee")
             if submitted:
-                st.stop()
                 my_insert_stmt = (
                     "insert into employee_crud.public.employee (ID, FirstName, LastName, DOB, Gender, Department, Salary) "
                     "values (" + str(int(current_id)) + ", '" + first_name + "', '" + last_name + "', '" + str(dob) + "', '" + gender + "', '" + department + "', " + str(float(salary)) + ")"
